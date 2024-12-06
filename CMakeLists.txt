@@ -13,22 +13,37 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BUILD_DIR}/Debug)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BUILD_DIR}/Release)
 
 find_package(OpenGL REQUIRED)
-
 include_directories(${OPENGL_INCLUDE_DIRS})
+
 set(EXTERN_DIR ${PROJECT_SOURCE_DIR}/extern)
 add_subdirectory(${EXTERN_DIR}/glfw)
 
 include_directories(${GLFW_SOURCE_DIR}/deps)
 
-set(CPP_FILES_DIR ${PROJECT_SOURCE_DIR}/src)
-file(GLOB_RECURSE CPP_FILES ${CPP_FILES_DIR}/*.cpp ${CPP_FILES_DIR}/*.c)
+set(SOURCE_FILES_DIR ${PROJECT_SOURCE_DIR}/src)
+set(HEADER_DIR ${PROJECT_SOURCE_DIR}/include)
+file(GLOB_RECURSE SRC_FILES ${SOURCE_FILES_DIR}/*.cpp ${SOURCE_FILES_DIR}/*.c ${HEADER_DIR}/*.hpp ${HEADER_DIR}/*.h)
 
-set(HPP_FILES_DIR ${PROJECT_SOURCE_DIR}/include)
-file(GLOB_RECURSE HPP_FILES ${HPP_FILES_DIR}/*.hpp ${HPP_FILES_DIR}/*.h)
+set(IMGUI_DIR ${EXTERN_DIR}/imgui)
+include_directories(${IMGUI_DIR})
+include_directories(${IMGUI_DIR}/backends)
+set(IMGUI_FILES 
+    ${IMGUI_DIR}/imgui.h
+    ${IMGUI_DIR}/imgui.cpp
+    ${IMGUI_DIR}/imconfig.h
+    ${IMGUI_DIR}/imgui_internal.h
+    ${IMGUI_DIR}/imgui_draw.cpp
+    ${IMGUI_DIR}/imgui_widgets.cpp
+    ${IMGUI_DIR}/imgui_tables.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_glfw.h
+    ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3.h
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3_loader.h
+    ) 
 
-include_directories(${HPP_FILES_DIR}/glad)
-
-add_executable(cad2ut_testbench ${HPP_FILES} ${CPP_FILES} ${GLAD_GL} )
+include_directories(${HEADER_DIR}/glad)
+add_executable(cad2ut_testbench ${SRC_FILES} ${IMGUI_FILES} ${GLAD_GL})
 
 target_include_directories(cad2ut_testbench PRIVATE ${EXTERN_DIR}/glfw/include)
 target_link_libraries(cad2ut_testbench ${OPENGL_LIBRARIES} glfw)

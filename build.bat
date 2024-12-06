@@ -1,1 +1,1 @@
-cmake -B build -S . -G"Visual Studio 17 2022" && cmake --build ./build --config Debug && start ./build/Debug/cad2ut_testbench.exe
+cmake -B build -S . -G"Visual Studio 17 2022" && cmake --build ./build --config Debug && start ./build/Debug/cad2ut_testbench.exe 
