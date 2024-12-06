@@ -6,7 +6,6 @@
 const int width = 2000;
 const int height = 1200;
 
-
 int main()
 {
 	glfwInit();
